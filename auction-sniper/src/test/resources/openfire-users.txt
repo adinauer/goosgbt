@@ -1,0 +1,4 @@
+admin@localhost alex
+sniper@localhost sniper
+auction-item-54321@localhost auction
+auction-item-65432@localhost auction
