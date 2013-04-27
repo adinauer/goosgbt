@@ -11,9 +11,32 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
 
-public class Main
-        implements
-            SniperListener {
+public class Main {
+    public class SniperStateDisplayer
+            implements
+                SniperListener {
+        public void sniperLost() {
+            showStatus(MainWindow.STATUS_LOST);
+        }
+        
+        public void sniperWinning() {
+            showStatus(MainWindow.STATUS_WINNING);
+        }
+        
+        public void sniperBidding() {
+            showStatus(MainWindow.STATUS_BIDDING);
+        }
+        
+        private void showStatus(final String status) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    ui.showStatus(status);
+                }
+            });
+        }
+        
+    }
+    
     private static final int   ARG_HOSTNAME        = 0;
     private static final int   ARG_USERNAME        = 1;
     private static final int   ARG_PASSWORD        = 2;
@@ -53,7 +76,7 @@ public class Main
         notToBeGCd = chat;
         
         Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
+        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, new SniperStateDisplayer())));
         
         auction.join();
     }
@@ -88,21 +111,5 @@ public class Main
     
     private static String auctionId(String itemId, XMPPConnection connection) {
         return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
-    }
-    
-    public void sniperLost() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_LOST);
-            }
-        });
-    }
-    
-    public void sniperBidding() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_BIDDING);
-            }
-        });
     }
 }
