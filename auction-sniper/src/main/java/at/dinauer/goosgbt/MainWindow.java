@@ -13,6 +13,7 @@ public class MainWindow
             JFrame {
     public static final String STATUS_JOINING     = "Joining";
     public static final String STATUS_LOST        = "Lost";
+    public static final String STATUS_BIDDING     = "Bidding";
 
     private final JLabel       sniperStatus       = createLabel(STATUS_JOINING);
     public static final String SNIPER_STATUS_NAME = "sniper status";
