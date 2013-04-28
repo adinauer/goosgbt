@@ -6,7 +6,9 @@ import javax.swing.table.AbstractTableModel;
 
 public class SnipersTableModel
         extends
-            AbstractTableModel {
+            AbstractTableModel
+        implements
+            SniperListener {
     private static String[]             STATUS_TEXT = {
                                                     "Joining", "Bidding", "Winning", "Lost", "Won" };
     // FIXME: should this really be initialized with state JOINING or should there be a NONE state?

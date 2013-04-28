@@ -15,10 +15,11 @@ public class MainWindow
     public static final String      SNIPERS_TABLE_NAME = "sniper table";
     public static final String      SNIPER_STATUS_NAME = "sniper status";
     
-    private final SnipersTableModel snipers            = new SnipersTableModel();
+    private final SnipersTableModel snipers;
     
-    public MainWindow() {
+    public MainWindow(SnipersTableModel snipers) {
         super("Auction Sniper");
+        this.snipers = snipers;
         
         setName(Main.MAIN_WINDOW_NAME);
         fillContentPane(makeSnipersTable());
@@ -40,9 +41,5 @@ public class MainWindow
         table.setName(SNIPERS_TABLE_NAME);
         
         return table;
-    }
-    
-    public void sniperStateChanged(SniperSnapshot sniperSnapshot) {
-        snipers.sniperStateChanged(sniperSnapshot);
     }
 }
