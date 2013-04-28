@@ -9,11 +9,10 @@ public class SnipersTableModel
             AbstractTableModel
         implements
             SniperListener {
-    private static String[]             STATUS_TEXT = {
-                                                    "Joining", "Bidding", "Winning", "Lost", "Won" };
-    // FIXME: should this really be initialized with state JOINING or should there be a NONE state?
-    private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
-    private SniperSnapshot              snapshot    = STARTING_UP;
+    private static String[]            STATUS_TEXT = {
+                                                   "Joining", "Bidding", "Winning", "Lost", "Won" };
+    public final static SniperSnapshot JOINING     = new SniperSnapshot("", 0, 0, SniperState.JOINING);
+    private SniperSnapshot             snapshot    = JOINING;
     
     public int getColumnCount() {
         return Column.values().length;
@@ -34,5 +33,10 @@ public class SnipersTableModel
     
     public static String textFor(SniperState state) {
         return STATUS_TEXT[state.ordinal()];
+    }
+    
+    @Override
+    public String getColumnName(int column) {
+        return Column.at(column).name;
     }
 }

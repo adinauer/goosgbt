@@ -2,6 +2,8 @@ package at.dinauer.goosgbt;
 
 
 import static at.dinauer.goosgbt.FakeAuctionServer.XMPP_HOSTNAME;
+import static at.dinauer.goosgbt.SniperState.LOST;
+import static at.dinauer.goosgbt.SnipersTableModel.JOINING;
 
 
 public class ApplicationRunner {
@@ -30,11 +32,13 @@ public class ApplicationRunner {
         thread.start();
         
         driver = new AuctionSniperDriver(1000);
-        driver.showsSniperStatus(SniperState.JOINING);
+        driver.hasTitle(MainWindow.APPLICATION_TITLE);
+        driver.hasColumnTitles();
+        driver.showsSniperStatus(JOINING.itemId, JOINING.lastPrice, JOINING.lastBid, SniperState.JOINING);
     }
     
     public void showsSniperHasLostAuction() {
-        driver.showsSniperStatus(SniperState.LOST);
+        driver.showsSniperStatus(LOST);
     }
     
     public void stop() {

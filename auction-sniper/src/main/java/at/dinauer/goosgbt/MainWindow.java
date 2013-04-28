@@ -12,13 +12,14 @@ import javax.swing.JTable;
 public class MainWindow
         extends
             JFrame {
+    public static final String      APPLICATION_TITLE  = "Auction Sniper";
     public static final String      SNIPERS_TABLE_NAME = "sniper table";
     public static final String      SNIPER_STATUS_NAME = "sniper status";
     
     private final SnipersTableModel snipers;
     
     public MainWindow(SnipersTableModel snipers) {
-        super("Auction Sniper");
+        super(APPLICATION_TITLE);
         this.snipers = snipers;
         
         setName(Main.MAIN_WINDOW_NAME);
