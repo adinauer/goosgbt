@@ -1,12 +1,17 @@
 package at.dinauer.goosgbt;
 
 
+import static at.dinauer.goosgbt.AuctionEventListener.PriceSource.FromOtherBidder;
+import static at.dinauer.goosgbt.AuctionEventListener.PriceSource.FromSniper;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.packet.Message;
+
+import at.dinauer.goosgbt.AuctionEventListener.PriceSource;
 
 
 public class AuctionMessageTranslator
@@ -29,6 +34,10 @@ public class AuctionMessageTranslator
             return getInt("CurrentPrice");
         }
         
+        private String bidder() {
+            return get("Bidder");
+        }
+        
         private int getInt(String fieldName) {
             return Integer.parseInt(get(fieldName));
         }
@@ -40,6 +49,10 @@ public class AuctionMessageTranslator
         private void addField(AuctionEvent event, String element) {
             String[] pair = element.split(":");
             fields.put(pair[0].trim(), pair[1].trim());
+        }
+        
+        public PriceSource isFrom(String sniperId) {
+            return sniperId.equals(bidder()) ? FromSniper : FromOtherBidder;
         }
         
         static AuctionEvent from(String messageBody) {
@@ -55,12 +68,13 @@ public class AuctionMessageTranslator
         static String[] fieldsIn(String messageBody) {
             return messageBody.split(";");
         }
-        
     }
     
+    private final String               sniperId;
     private final AuctionEventListener listener;
     
-    public AuctionMessageTranslator(AuctionEventListener listener) {
+    public AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
+        this.sniperId = sniperId;
         this.listener = listener;
     }
     
@@ -71,7 +85,7 @@ public class AuctionMessageTranslator
         if ("CLOSE".equals(eventType)) {
             listener.auctionClosed();
         } else if ("PRICE".equals(eventType)) {
-            listener.currentPrice(event.currentPrice(), event.increment());
+            listener.currentPrice(event.currentPrice(), event.increment(), event.isFrom(sniperId));
         }
     }
 }

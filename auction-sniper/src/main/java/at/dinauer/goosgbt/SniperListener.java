@@ -8,4 +8,6 @@ public interface SniperListener {
     
     void sniperBidding();
     
+    void sniperWon();
+    
 }

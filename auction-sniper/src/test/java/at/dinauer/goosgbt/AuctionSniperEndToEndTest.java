@@ -1,6 +1,8 @@
 package at.dinauer.goosgbt;
 
 
+import static at.dinauer.goosgbt.ApplicationRunner.SNIPER_XMPP_ID;
+
 import org.junit.After;
 import org.junit.Test;
 
@@ -14,7 +16,7 @@ public class AuctionSniperEndToEndTest {
         auction.startSellingItem();
         
         application.startBiddingIn(auction);
-        auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
+        auction.hasReceivedJoinRequestFromSniper(SNIPER_XMPP_ID);
         
         auction.announceClosed();
         application.showsSniperHasLostAuction();
@@ -25,15 +27,34 @@ public class AuctionSniperEndToEndTest {
         auction.startSellingItem();
         
         application.startBiddingIn(auction);
-        auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
+        auction.hasReceivedJoinRequestFromSniper(SNIPER_XMPP_ID);
         
         auction.reportPrice(1000, 98, "other bidder");
         application.hasShownSniperIsBidding();
         
-        auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
+        auction.hasReceivedBid(1098, SNIPER_XMPP_ID);
         
         auction.announceClosed();
         application.showsSniperHasLostAuction();
+    }
+    
+    @Test
+    public void sniperWindsAnAuctionByBiddingHigher() throws Exception {
+        auction.startSellingItem();
+        
+        application.startBiddingIn(auction);
+        auction.hasReceivedJoinRequestFromSniper(SNIPER_XMPP_ID);
+        
+        auction.reportPrice(1000, 98, "other bidder");
+        application.hasShownSniperIsBidding();
+        
+        auction.hasReceivedBid(1098, SNIPER_XMPP_ID);
+        
+        auction.reportPrice(1098, 97, SNIPER_XMPP_ID);
+        application.hasShownSniperIsWinning();
+        
+        auction.announceClosed();
+        application.showsSniperHasWonAuction();
     }
     
     @After
