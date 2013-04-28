@@ -1,7 +1,10 @@
 package at.dinauer.goosgbt;
 
 
+import static at.dinauer.goosgbt.SnipersTableModel.textFor;
+import static com.objogate.wl.swing.matcher.IterableComponentsMatcher.matching;
 import static com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText;
+import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.objogate.wl.swing.AWTEventQueueProber;
@@ -23,7 +26,16 @@ public class AuctionSniperDriver
                 new AWTEventQueueProber(timeoutMillis, 100));
     }
     
-    public void showsSniperStatus(String statusText) {
-        new JTableDriver(this).hasCell(withLabelText(equalTo(statusText)));
+    public void showsSniperStatus(SniperState state) {
+        new JTableDriver(this).hasCell(withLabelText(equalTo(textFor(state))));
+    }
+    
+    public void showsSniperStatus(String itemId, int lastPrice, int lastBid, SniperState state) {
+        JTableDriver table = new JTableDriver(this);
+        table.hasRow(matching(
+                withLabelText(itemId),
+                withLabelText(valueOf(lastPrice)),
+                withLabelText(valueOf(lastBid)),
+                withLabelText(textFor(state))));
     }
 }
