@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
@@ -52,8 +51,7 @@ public class Main {
     private final SnipersTableModel snipers             = new SnipersTableModel();
     private MainWindow              ui;
     
-    /* keep a reference to the chat to avoid garbage collection */
-    private List<Chat>              notToBeGCd          = new ArrayList<>();
+    private List<Auction>           notToBeGCd          = new ArrayList<>();
     
     public Main() throws Exception {
         startUserInterface();
@@ -73,14 +71,10 @@ public class Main {
             public void joinAuction(String itemId) {
                 snipers.addSniper(SniperSnapshot.joining(itemId));
                 
-                Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-                notToBeGCd.add(chat);
-                
-                Auction auction = new XMPPAuction(chat);
-                chat.addMessageListener(new AuctionMessageTranslator(
-                        connection.getUser(),
-                        new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
-                
+                Auction auction = new XMPPAuction(connection, itemId);
+                notToBeGCd.add(auction);
+                auction.addAuctionEventListener(
+                        new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId));
                 auction.join();
             }
         });
@@ -110,9 +104,5 @@ public class Main {
         connection.login(username, password, AUCTION_RESOURCE);
         
         return connection;
-    }
-    
-    private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
     }
 }
