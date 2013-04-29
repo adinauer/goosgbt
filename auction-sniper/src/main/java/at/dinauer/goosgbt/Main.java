@@ -39,9 +39,6 @@ public class Main {
     private static final int        ARG_ITEM_ID_START   = 3;
     
     public static final String      MAIN_WINDOW_NAME    = "Auction Sniper MAIN";
-    public static final String      AUCTION_RESOURCE    = "Auction";
-    public static final String      ITEM_ID_AS_LOGIN    = "auction-%s";
-    public static final String      AUCTION_ID_FORMAT   = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
     public static final String      BID_COMMAND_FORMAT  = "SOLVersion: 1.1; Command: BID; Price %d;";
     public static final String      JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     

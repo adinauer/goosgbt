@@ -11,6 +11,8 @@ import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
+import at.dinauer.goosgbt.xmpp.XMPPAuctionHouse;
+
 
 public class FakeAuctionServer {
     public static final String          XMPP_HOSTNAME    = "localhost";
@@ -29,7 +31,7 @@ public class FakeAuctionServer {
     public void startSellingItem()
             throws XMPPException {
         connection.connect();
-        connection.login(format(Main.ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, Main.AUCTION_RESOURCE);
+        connection.login(format(XMPPAuctionHouse.ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, XMPPAuctionHouse.AUCTION_RESOURCE);
         connection.getChatManager().addChatListener(new ChatManagerListener() {
             public void chatCreated(Chat chat, boolean createdLocally) {
                 currentChat = chat;
