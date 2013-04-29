@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import at.dinauer.goosgbt.AuctionSniper;
+import at.dinauer.goosgbt.Main.SwingThreadSniperListener;
+import at.dinauer.goosgbt.SniperCollector;
 import at.dinauer.goosgbt.SniperListener;
 import at.dinauer.goosgbt.SniperSnapshot;
 import at.dinauer.goosgbt.SniperState;
@@ -16,9 +19,11 @@ public class SnipersTableModel
         extends
             AbstractTableModel
         implements
-            SniperListener {
+            SniperListener,
+            SniperCollector {
     private static String[]      STATUS_TEXT = { "Joining", "Bidding", "Winning", "Lost", "Won" };
     private List<SniperSnapshot> snapshots   = new ArrayList<>();
+    private List<AuctionSniper>  notToBeGCd  = new ArrayList<>();
     
     public int getColumnCount() {
         return Column.values().length;
@@ -56,9 +61,15 @@ public class SnipersTableModel
         return Column.at(column).name;
     }
     
-    public void addSniper(SniperSnapshot snapshot) {
+    public void addSniperSnapshot(SniperSnapshot snapshot) {
         snapshots.add(snapshot);
         int rowIndex = getRowCount() - 1;
         fireTableRowsInserted(rowIndex, rowIndex);
+    }
+    
+    public void addSniper(AuctionSniper sniper) {
+        notToBeGCd.add(sniper);
+        addSniperSnapshot(sniper.getSnapshot());
+        sniper.addSniperListener(new SwingThreadSniperListener(this));
     }
 }

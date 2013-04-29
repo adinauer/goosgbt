@@ -54,7 +54,7 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniper(joining);
+        model.addSniperSnapshot(joining);
         model.sniperStateChanged(bidding);
         
         assertRowMatchesSnapshot(0, bidding);
@@ -78,7 +78,7 @@ public class SnipersTableModelTest {
         
         assertEquals(0, model.getRowCount());
         
-        model.addSniper(joining);
+        model.addSniperSnapshot(joining);
         
         assertEquals(1, model.getRowCount());
         assertRowMatchesSnapshot(0, joining);
@@ -92,8 +92,8 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniper(SniperSnapshot.joining("item 0"));
-        model.addSniper(SniperSnapshot.joining("item 1"));
+        model.addSniperSnapshot(SniperSnapshot.joining("item 0"));
+        model.addSniperSnapshot(SniperSnapshot.joining("item 1"));
         
         assertCellEquals(0, Column.ITEM_IDENTIFIER, "item 0");
         assertCellEquals(1, Column.ITEM_IDENTIFIER, "item 1");
@@ -114,9 +114,9 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniper(s0);
-        model.addSniper(s1);
-        model.addSniper(s2);
+        model.addSniperSnapshot(s0);
+        model.addSniperSnapshot(s1);
+        model.addSniperSnapshot(s2);
         
         model.sniperStateChanged(s1);
     }
@@ -132,7 +132,7 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniper(existing);
+        model.addSniperSnapshot(existing);
         
         model.sniperStateChanged(nonExisting);
     }

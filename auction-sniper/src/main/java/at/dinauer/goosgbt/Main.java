@@ -3,8 +3,6 @@ package at.dinauer.goosgbt;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.SwingUtilities;
 
@@ -14,7 +12,7 @@ import at.dinauer.goosgbt.xmpp.XMPPAuctionHouse;
 
 
 public class Main {
-    public class SwingThreadSniperListener
+    public static class SwingThreadSniperListener
             implements
                 SniperListener {
         
@@ -33,19 +31,18 @@ public class Main {
         }
     }
     
-    private static final int        ARG_HOSTNAME        = 0;
-    private static final int        ARG_USERNAME        = 1;
-    private static final int        ARG_PASSWORD        = 2;
-    private static final int        ARG_ITEM_ID_START   = 3;
+    private static final int   ARG_HOSTNAME        = 0;
+    private static final int   ARG_USERNAME        = 1;
+    private static final int   ARG_PASSWORD        = 2;
+    private static final int   ARG_ITEM_ID_START   = 3;
     
-    public static final String      MAIN_WINDOW_NAME    = "Auction Sniper MAIN";
-    public static final String      BID_COMMAND_FORMAT  = "SOLVersion: 1.1; Command: BID; Price %d;";
-    public static final String      JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
+    public static final String MAIN_WINDOW_NAME    = "Auction Sniper MAIN";
+    public static final String BID_COMMAND_FORMAT  = "SOLVersion: 1.1; Command: BID; Price %d;";
+    public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     
-    private final SnipersTableModel snipers             = new SnipersTableModel();
-    private MainWindow              ui;
+    private MainWindow         ui;
+    private SnipersTableModel  snipers             = new SnipersTableModel();
     
-    private List<Auction>           notToBeGCd          = new ArrayList<>();
     
     public Main() throws Exception {
         startUserInterface();
@@ -65,17 +62,7 @@ public class Main {
     }
     
     private void addUserRequestListenerFor(final AuctionHouse auctionHouse) {
-        ui.addUserRequestListener(new UserRequestListener() {
-            public void joinAuction(String itemId) {
-                snipers.addSniper(SniperSnapshot.joining(itemId));
-                
-                Auction auction = auctionHouse.auctionFor(itemId);
-                notToBeGCd.add(auction);
-                auction.addAuctionEventListener(
-                        new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId));
-                auction.join();
-            }
-        });
+        ui.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
     }
     
     private void disconnectWhenUICloses(final XMPPAuctionHouse auctionHouse) {
