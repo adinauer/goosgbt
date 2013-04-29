@@ -12,25 +12,6 @@ import at.dinauer.goosgbt.xmpp.XMPPAuctionHouse;
 
 
 public class Main {
-    public static class SwingThreadSniperListener
-            implements
-                SniperListener {
-        
-        private final SnipersTableModel snipers;
-        
-        public SwingThreadSniperListener(SnipersTableModel snipers) {
-            this.snipers = snipers;
-        }
-        
-        public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    snipers.sniperStateChanged(sniperSnapshot);
-                }
-            });
-        }
-    }
-    
     private static final int   ARG_HOSTNAME        = 0;
     private static final int   ARG_USERNAME        = 1;
     private static final int   ARG_PASSWORD        = 2;

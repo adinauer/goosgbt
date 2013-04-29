@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import at.dinauer.goosgbt.AuctionSniper;
-import at.dinauer.goosgbt.Main.SwingThreadSniperListener;
 import at.dinauer.goosgbt.SniperCollector;
 import at.dinauer.goosgbt.SniperListener;
 import at.dinauer.goosgbt.SniperSnapshot;
