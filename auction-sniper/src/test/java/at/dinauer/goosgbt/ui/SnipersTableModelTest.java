@@ -18,10 +18,10 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;import at.dinauer.goosgbt.SniperSnapshot;
-import at.dinauer.goosgbt.SniperState;
-import at.dinauer.goosgbt.ui.Column;
-import at.dinauer.goosgbt.ui.SnipersTableModel;
+import org.junit.runner.RunWith;
+
+import at.dinauer.goosgbt.AuctionSniper;
+import at.dinauer.goosgbt.SniperSnapshot;
 import at.dinauer.goosgbt.util.Defect;
 
 
@@ -43,8 +43,8 @@ public class SnipersTableModelTest {
     
     @Test
     public void setsSniperValuesInColumns() {
-        SniperSnapshot joining = new SniperSnapshot("item id", 555, 666, SniperState.BIDDING);
-        SniperSnapshot bidding = joining.bidding(555, 666);
+        AuctionSniper sniper = createSniperForItem("item id");
+        SniperSnapshot bidding = sniper.getSnapshot().bidding(555, 666);
         
         context.checking(new Expectations() {
             {
@@ -54,7 +54,8 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniperSnapshot(joining);
+        
+        model.addSniper(sniper);
         model.sniperStateChanged(bidding);
         
         assertRowMatchesSnapshot(0, bidding);
@@ -69,7 +70,8 @@ public class SnipersTableModelTest {
     
     @Test
     public void notifiesListenersWhenAddingASniper() {
-        SniperSnapshot joining = SniperSnapshot.joining("item123");
+        AuctionSniper sniper = createSniperForItem("item id");
+        
         context.checking(new Expectations() {
             {
                 oneOf(listener).tableChanged(with(anInsertionAtRow(0)));
@@ -78,10 +80,10 @@ public class SnipersTableModelTest {
         
         assertEquals(0, model.getRowCount());
         
-        model.addSniperSnapshot(joining);
+        model.addSniper(sniper);
         
         assertEquals(1, model.getRowCount());
-        assertRowMatchesSnapshot(0, joining);
+        assertRowMatchesSnapshot(0, sniper.getSnapshot());
     }
     
     @Test
@@ -92,8 +94,8 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniperSnapshot(SniperSnapshot.joining("item 0"));
-        model.addSniperSnapshot(SniperSnapshot.joining("item 1"));
+        model.addSniper(createSniperForItem("item 0"));
+        model.addSniper(createSniperForItem("item 1"));
         
         assertCellEquals(0, Column.ITEM_IDENTIFIER, "item 0");
         assertCellEquals(1, Column.ITEM_IDENTIFIER, "item 1");
@@ -101,9 +103,9 @@ public class SnipersTableModelTest {
     
     @Test
     public void updatesCorrectRowForSniper() {
-        SniperSnapshot s0 = SniperSnapshot.joining("item 0");
-        SniperSnapshot s1 = SniperSnapshot.joining("item 1");
-        SniperSnapshot s2 = SniperSnapshot.joining("item 2");
+        AuctionSniper s0 = createSniperForItem("item 0");
+        AuctionSniper s1 = createSniperForItem("item 1");
+        AuctionSniper s2 = createSniperForItem("item 2");
         
         
         context.checking(new Expectations() {
@@ -114,17 +116,17 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniperSnapshot(s0);
-        model.addSniperSnapshot(s1);
-        model.addSniperSnapshot(s2);
+        model.addSniper(s0);
+        model.addSniper(s1);
+        model.addSniper(s2);
         
-        model.sniperStateChanged(s1);
+        model.sniperStateChanged(s1.getSnapshot());
     }
     
     @Test(expected = Defect.class)
     public void throwsDefectIfNoExistingSniperForAnUpdate() {
-        SniperSnapshot existing = SniperSnapshot.joining("item 0");
-        SniperSnapshot nonExisting = SniperSnapshot.joining("item 1");
+        AuctionSniper existing = createSniperForItem("existing item");
+        AuctionSniper nonExisting = createSniperForItem("NONexisting item");
         
         context.checking(new Expectations() {
             {
@@ -132,9 +134,13 @@ public class SnipersTableModelTest {
             }
         });
         
-        model.addSniperSnapshot(existing);
+        model.addSniper(existing);
         
-        model.sniperStateChanged(nonExisting);
+        model.sniperStateChanged(nonExisting.getSnapshot());
+    }
+    
+    private AuctionSniper createSniperForItem(String itemId) {
+        return new AuctionSniper(null, itemId);
     }
     
     private Matcher<TableModelEvent> anyInsertionEvent() {

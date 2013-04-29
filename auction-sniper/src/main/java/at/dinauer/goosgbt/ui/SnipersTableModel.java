@@ -60,15 +60,15 @@ public class SnipersTableModel
         return Column.at(column).name;
     }
     
-    public void addSniperSnapshot(SniperSnapshot snapshot) {
-        snapshots.add(snapshot);
-        int rowIndex = getRowCount() - 1;
-        fireTableRowsInserted(rowIndex, rowIndex);
-    }
-    
     public void addSniper(AuctionSniper sniper) {
         notToBeGCd.add(sniper);
         addSniperSnapshot(sniper.getSnapshot());
         sniper.addSniperListener(new SwingThreadSniperListener(this));
+    }
+    
+    private void addSniperSnapshot(SniperSnapshot snapshot) {
+        snapshots.add(snapshot);
+        int rowIndex = getRowCount() - 1;
+        fireTableRowsInserted(rowIndex, rowIndex);
     }
 }
