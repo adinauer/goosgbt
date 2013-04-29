@@ -7,22 +7,21 @@ import java.awt.event.WindowEvent;
 import javax.swing.SwingUtilities;
 
 import at.dinauer.goosgbt.ui.MainWindow;
-import at.dinauer.goosgbt.ui.SnipersTableModel;
 import at.dinauer.goosgbt.xmpp.XMPPAuctionHouse;
 
 
 public class Main {
-    private static final int   ARG_HOSTNAME        = 0;
-    private static final int   ARG_USERNAME        = 1;
-    private static final int   ARG_PASSWORD        = 2;
-    private static final int   ARG_ITEM_ID_START   = 3;
+    private static final int      ARG_HOSTNAME        = 0;
+    private static final int      ARG_USERNAME        = 1;
+    private static final int      ARG_PASSWORD        = 2;
+    private static final int      ARG_ITEM_ID_START   = 3;
     
-    public static final String MAIN_WINDOW_NAME    = "Auction Sniper MAIN";
-    public static final String BID_COMMAND_FORMAT  = "SOLVersion: 1.1; Command: BID; Price %d;";
-    public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
+    public static final String    MAIN_WINDOW_NAME    = "Auction Sniper MAIN";
+    public static final String    BID_COMMAND_FORMAT  = "SOLVersion: 1.1; Command: BID; Price %d;";
+    public static final String    JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     
-    private MainWindow         ui;
-    private SnipersTableModel  snipers             = new SnipersTableModel();
+    private MainWindow            ui;
+    private final SniperPortfolio portfolio           = new SniperPortfolio();
     
     
     public Main() throws Exception {
@@ -43,7 +42,7 @@ public class Main {
     }
     
     private void addUserRequestListenerFor(final AuctionHouse auctionHouse) {
-        ui.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
+        ui.addUserRequestListener(new SniperLauncher(auctionHouse, portfolio));
     }
     
     private void disconnectWhenUICloses(final XMPPAuctionHouse auctionHouse) {
@@ -58,7 +57,7 @@ public class Main {
     private void startUserInterface() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
-                ui = new MainWindow(snipers);
+                ui = new MainWindow(portfolio);
             }
         });
     }

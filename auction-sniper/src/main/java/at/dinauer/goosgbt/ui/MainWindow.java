@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import at.dinauer.goosgbt.Main;
+import at.dinauer.goosgbt.SniperPortfolio;
 import at.dinauer.goosgbt.UserRequestListener;
 import at.dinauer.goosgbt.util.Announcer;
 
@@ -28,15 +29,13 @@ public class MainWindow
     public static final String                   NEW_ITEM_ID_NAME   = "new item id";
     public static final String                   JOIN_BUTTON_NAME   = "join button";
     
-    private final SnipersTableModel              snipers;
     private final Announcer<UserRequestListener> userRequests       = Announcer.to(UserRequestListener.class);
     
-    public MainWindow(SnipersTableModel snipers) {
+    public MainWindow(SniperPortfolio portfolio) {
         super(APPLICATION_TITLE);
-        this.snipers = snipers;
         
         setName(Main.MAIN_WINDOW_NAME);
-        fillContentPane(makeSnipersTable(), makeControls());
+        fillContentPane(makeSnipersTable(portfolio), makeControls());
         pack();
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,9 +69,11 @@ public class MainWindow
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
     }
     
-    private JTable makeSnipersTable() {
-        final JTable table = new JTable(snipers);
+    private JTable makeSnipersTable(SniperPortfolio portfolio) {
+        SnipersTableModel model = new SnipersTableModel();
+        portfolio.addPortfolioListener(model);
         
+        final JTable table = new JTable(model);
         table.setName(SNIPERS_TABLE_NAME);
         
         return table;

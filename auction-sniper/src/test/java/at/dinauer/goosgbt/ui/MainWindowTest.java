@@ -7,14 +7,15 @@ import org.junit.After;
 import org.junit.Test;
 
 import at.dinauer.goosgbt.AuctionSniperDriver;
+import at.dinauer.goosgbt.SniperPortfolio;
 import at.dinauer.goosgbt.UserRequestListener;
 
 import com.objogate.wl.swing.probe.ValueMatcherProbe;
 
 
 public class MainWindowTest {
-    private final SnipersTableModel   tableModel = new SnipersTableModel();
-    private final MainWindow          mainWindow = new MainWindow(tableModel);
+    private final SniperPortfolio     portfolio  = new SniperPortfolio();
+    private final MainWindow          mainWindow = new MainWindow(portfolio);
     private final AuctionSniperDriver driver     = new AuctionSniperDriver(100);
     
     @Test
