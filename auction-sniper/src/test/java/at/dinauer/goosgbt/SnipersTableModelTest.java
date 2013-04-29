@@ -20,10 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.objogate.exception.Defect;
-
-
-
 
 @RunWith(JMock.class)
 public class SnipersTableModelTest {

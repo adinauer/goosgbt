@@ -1,7 +1,6 @@
 package at.dinauer.goosgbt;
 
 
-import com.objogate.exception.Defect;
 
 
 public enum SniperState {
