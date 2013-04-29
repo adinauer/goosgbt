@@ -1,7 +1,7 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.ui;
 
 
-import static at.dinauer.goosgbt.SnipersTableModel.textFor;
+import static at.dinauer.goosgbt.ui.SnipersTableModel.textFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
@@ -18,7 +18,11 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.runner.RunWith;import at.dinauer.goosgbt.SniperSnapshot;
+import at.dinauer.goosgbt.SniperState;
+import at.dinauer.goosgbt.ui.Column;
+import at.dinauer.goosgbt.ui.SnipersTableModel;
+import at.dinauer.goosgbt.util.Defect;
 
 
 @RunWith(JMock.class)

@@ -1,9 +1,14 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.ui;
 
 
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Test;
+
+import at.dinauer.goosgbt.AuctionSniperDriver;
+import at.dinauer.goosgbt.UserRequestListener;
+
+import at.dinauer.goosgbt.ui.MainWindow;
 
 import com.objogate.wl.swing.probe.ValueMatcherProbe;
 

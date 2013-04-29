@@ -1,5 +1,7 @@
 package at.dinauer.goosgbt;
 
+import at.dinauer.goosgbt.util.Defect;
+
 
 
 

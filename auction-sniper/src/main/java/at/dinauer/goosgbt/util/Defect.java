@@ -1,4 +1,4 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.util;
 
 public class Defect
         extends

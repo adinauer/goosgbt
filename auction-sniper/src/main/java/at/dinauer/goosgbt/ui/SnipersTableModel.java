@@ -1,10 +1,15 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.ui;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import at.dinauer.goosgbt.SniperListener;
+import at.dinauer.goosgbt.SniperSnapshot;
+import at.dinauer.goosgbt.SniperState;
+import at.dinauer.goosgbt.util.Defect;
 
 
 public class SnipersTableModel

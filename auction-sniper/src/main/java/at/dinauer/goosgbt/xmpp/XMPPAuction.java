@@ -1,16 +1,19 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.xmpp;
 
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPException;
 
+import at.dinauer.goosgbt.Auction;
+import at.dinauer.goosgbt.Main;
 
-final class XMPPAuction
+
+public class XMPPAuction
         implements
             Auction {
     private final Chat chat;
     
-    XMPPAuction(Chat chat) {
+    public XMPPAuction(Chat chat) {
         this.chat = chat;
     }
     

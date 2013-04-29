@@ -1,4 +1,4 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.ui;
 
 
 import java.awt.BorderLayout;
@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import at.dinauer.goosgbt.Main;
+import at.dinauer.goosgbt.UserRequestListener;
 import at.dinauer.goosgbt.util.Announcer;
 
 

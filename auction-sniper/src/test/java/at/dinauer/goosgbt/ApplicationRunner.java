@@ -3,6 +3,7 @@ package at.dinauer.goosgbt;
 
 import static at.dinauer.goosgbt.FakeAuctionServer.XMPP_HOSTNAME;
 import static at.dinauer.goosgbt.SniperState.LOST;
+import at.dinauer.goosgbt.ui.MainWindow;
 
 
 public class ApplicationRunner {

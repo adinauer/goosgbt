@@ -12,6 +12,10 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
+import at.dinauer.goosgbt.ui.MainWindow;
+import at.dinauer.goosgbt.ui.SnipersTableModel;
+import at.dinauer.goosgbt.xmpp.XMPPAuction;
+
 
 public class Main {
     public class SwingThreadSniperListener

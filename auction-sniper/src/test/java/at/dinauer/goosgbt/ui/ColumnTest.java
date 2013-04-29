@@ -1,11 +1,16 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.ui;
 
 
-import static at.dinauer.goosgbt.SnipersTableModel.textFor;
+import static at.dinauer.goosgbt.ui.SnipersTableModel.textFor;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import at.dinauer.goosgbt.SniperSnapshot;
+import at.dinauer.goosgbt.SniperState;
+
+import at.dinauer.goosgbt.ui.Column;
 
 
 public class ColumnTest {

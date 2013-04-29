@@ -1,7 +1,8 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.ui;
 
 
-import static at.dinauer.goosgbt.SnipersTableModel.textFor;
+import static at.dinauer.goosgbt.ui.SnipersTableModel.textFor;
+import at.dinauer.goosgbt.SniperSnapshot;
 
 
 public enum Column {
