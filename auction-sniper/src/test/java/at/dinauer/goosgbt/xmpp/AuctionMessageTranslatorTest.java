@@ -1,4 +1,4 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.xmpp;
 
 
 import static at.dinauer.goosgbt.ApplicationRunner.SNIPER_ID;
@@ -12,7 +12,9 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import at.dinauer.goosgbt.AuctionEventListener;
 import at.dinauer.goosgbt.AuctionEventListener.PriceSource;
+import at.dinauer.goosgbt.xmpp.AuctionMessageTranslator;
 
 
 @RunWith(JMock.class)

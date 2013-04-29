@@ -7,7 +7,6 @@ import org.jivesoftware.smack.XMPPException;
 
 import at.dinauer.goosgbt.Auction;
 import at.dinauer.goosgbt.AuctionEventListener;
-import at.dinauer.goosgbt.AuctionMessageTranslator;
 import at.dinauer.goosgbt.Main;
 import at.dinauer.goosgbt.util.Announcer;
 

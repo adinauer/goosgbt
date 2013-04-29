@@ -1,4 +1,4 @@
-package at.dinauer.goosgbt;
+package at.dinauer.goosgbt.xmpp;
 
 
 import static at.dinauer.goosgbt.AuctionEventListener.PriceSource.FromOtherBidder;
@@ -11,6 +11,7 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.packet.Message;
 
+import at.dinauer.goosgbt.AuctionEventListener;
 import at.dinauer.goosgbt.AuctionEventListener.PriceSource;
 
 
