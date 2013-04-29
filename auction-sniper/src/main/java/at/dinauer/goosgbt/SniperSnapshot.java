@@ -84,4 +84,8 @@ public class SniperSnapshot {
                 + "]";
     }
     
+    public boolean isForSameItemAs(SniperSnapshot otherSnapshot) {
+        return itemId.equals(otherSnapshot.itemId);
+    }
+    
 }
