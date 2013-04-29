@@ -3,12 +3,11 @@ package at.dinauer.goosgbt.ui;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import org.junit.After;
 import org.junit.Test;
 
 import at.dinauer.goosgbt.AuctionSniperDriver;
 import at.dinauer.goosgbt.UserRequestListener;
-
-import at.dinauer.goosgbt.ui.MainWindow;
 
 import com.objogate.wl.swing.probe.ValueMatcherProbe;
 
@@ -30,5 +29,10 @@ public class MainWindowTest {
         
         driver.startBiddingFor("an item-id");
         driver.check(buttonProbe);
+    }
+    
+    @After
+    public void stopAuction() {
+        mainWindow.dispose();
     }
 }
