@@ -5,13 +5,18 @@ sourceCompatibility = 1.7
 version = '0.1-SNAPSHOT'
 
 repositories {
+    flatDir {
+        dirs 'lib'
+    }
+    
 	mavenCentral()
 }
 
 dependencies {
     compile 'jivesoftware:smack:3.1.0'
 	testCompile 'junit:junit:4.11'
-    testCompile 'com.googlecode.windowlicker:windowlicker-swing:r268'
+    testCompile 'com.googlecode.windowlicker:windowlicker-core:DEV'
+    testCompile 'com.googlecode.windowlicker:windowlicker-swing:DEV'
     testCompile 'org.jmock:jmock-junit4:2.6.0'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
