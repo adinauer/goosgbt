@@ -1,14 +1,17 @@
 package at.dinauer.goosgbt;
 
 
+import at.dinauer.goosgbt.util.Announcer;
+
+
 public class AuctionSniper
         implements
             AuctionEventListener {
     
-    private SniperListener sniperListener;
-    private final Auction  auction;
-    private SniperSnapshot snapshot;
-    private final Item     item;
+    private Announcer<SniperListener> sniperListeners = Announcer.to(SniperListener.class);
+    private final Auction             auction;
+    private SniperSnapshot            snapshot;
+    private final Item                item;
     
     public AuctionSniper(Auction auction, Item item) {
         this.auction = auction;
@@ -55,7 +58,7 @@ public class AuctionSniper
     }
     
     private void notifyChange() {
-        sniperListener.sniperStateChanged(snapshot);
+        sniperListeners.announce().sniperStateChanged(snapshot);
     }
     
     public SniperSnapshot getSnapshot() {
@@ -63,6 +66,6 @@ public class AuctionSniper
     }
     
     public void addSniperListener(SniperListener listener) {
-        sniperListener = listener;
+        sniperListeners.addListener(listener);
     }
 }
