@@ -55,4 +55,8 @@ public class Item {
     public static Item createWithoutStopPrice(String itemId) {
         return new Item(itemId, Integer.MAX_VALUE);
     }
+    
+    public boolean allowsBid(int bid) {
+        return bid <= stopPrice;
+    }
 }

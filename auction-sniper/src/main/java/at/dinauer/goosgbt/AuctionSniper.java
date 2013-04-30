@@ -8,9 +8,11 @@ public class AuctionSniper
     private SniperListener sniperListener;
     private final Auction  auction;
     private SniperSnapshot snapshot;
+    private final Item     item;
     
     public AuctionSniper(Auction auction, Item item) {
         this.auction = auction;
+        this.item = item;
         snapshot = SniperSnapshot.joining(item);
     }
     
@@ -39,11 +41,11 @@ public class AuctionSniper
     private void handlePriceUpdateFromOtherBidder(int price, int increment) {
         int bid = price + increment;
         
-        if (bid > snapshot.item.stopPrice) {
-            snapshot = snapshot.losing(price);
-        } else {
+        if (item.allowsBid(bid)) {
             auction.bid(price + increment);
             snapshot = snapshot.bidding(price, bid);
+        } else {
+            snapshot = snapshot.losing(price);
         }
     }
     

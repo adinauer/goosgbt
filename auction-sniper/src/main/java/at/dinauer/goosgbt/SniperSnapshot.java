@@ -91,5 +91,4 @@ public class SniperSnapshot {
     public boolean isForSameItemAs(SniperSnapshot otherSnapshot) {
         return item.equals(otherSnapshot.item);
     }
-    
 }
