@@ -23,11 +23,11 @@ import at.dinauer.goosgbt.AuctionEventListener.PriceSource;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
-    protected static final String ITEM_ID        = "itemID";
     private final Mockery         context        = new JUnit4Mockery();
     private final SniperListener  sniperListener = context.mock(SniperListener.class);
     private final Auction         auction        = context.mock(Auction.class);
-    private final AuctionSniper   sniper         = new AuctionSniper(auction, ITEM_ID);
+    private final Item            item           = Item.createWithoutStopPrice("itemID");
+    private final AuctionSniper   sniper         = new AuctionSniper(auction, item);
     private final States          sniperState    = context.states("sniper");
     
     @Before
@@ -92,7 +92,7 @@ public class AuctionSniperTest {
             {
                 oneOf(auction).bid(bid);
                 atLeast(1).of(sniperListener).sniperStateChanged(
-                        new SniperSnapshot(ITEM_ID, price, bid, SniperState.BIDDING));
+                        new SniperSnapshot(item, price, bid, SniperState.BIDDING));
             }
         });
         
@@ -108,7 +108,7 @@ public class AuctionSniperTest {
                 allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
                 then(sniperState.is("bidding"));
                 
-                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 135, 135, WINNING));
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(item, 135, 135, WINNING));
                 when(sniperState.is("bidding"));
             }
         });

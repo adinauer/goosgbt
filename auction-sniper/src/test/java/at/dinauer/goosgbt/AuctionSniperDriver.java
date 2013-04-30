@@ -59,15 +59,10 @@ public class AuctionSniperDriver
                 withLabelText("State")));
     }
     
-    public void startBiddingWithoutStopPrice(String itemId) {
-        startBiddingWithStopPrice(itemId, Integer.MAX_VALUE);
-    }
-    
-    public void startBiddingWithStopPrice(String itemId, int stopPrice) {
-        textField(NEW_ITEM_ID_NAME).replaceAllText(itemId);
-        textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(valueOf(stopPrice));
+    public void startBiddingFor(Item item) {
+        textField(NEW_ITEM_ID_NAME).replaceAllText(item.identifier);
+        textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(valueOf(item.stopPrice));
         bidButton().click();
-        
     }
     
     private JTextFieldDriver textField(String textFieldName) {

@@ -1,39 +1,39 @@
 package at.dinauer.goosgbt;
 
 public class SniperSnapshot {
-    public final String      itemId;
+    public final Item        item;
     public final int         lastPrice;
     public final int         lastBid;
     public final SniperState state;
     
-    public SniperSnapshot(String itemId, int lastPrice, int lastBid, SniperState sniperState) {
-        this.itemId = itemId;
+    public SniperSnapshot(Item item, int lastPrice, int lastBid, SniperState sniperState) {
+        this.item = item;
         this.lastPrice = lastPrice;
         this.lastBid = lastBid;
         state = sniperState;
     }
     
     public SniperSnapshot bidding(int lastPrice, int lastBid) {
-        return new SniperSnapshot(itemId, lastPrice, lastBid, SniperState.BIDDING);
+        return new SniperSnapshot(item, lastPrice, lastBid, SniperState.BIDDING);
     }
     
     public SniperSnapshot winning(int lastPrice) {
-        return new SniperSnapshot(itemId, lastPrice, lastBid, SniperState.WINNING);
+        return new SniperSnapshot(item, lastPrice, lastBid, SniperState.WINNING);
     }
     
-    public static SniperSnapshot joining(String itemId) {
-        return new SniperSnapshot(itemId, 0, 0, SniperState.JOINING);
+    public static SniperSnapshot joining(Item item) {
+        return new SniperSnapshot(item, 0, 0, SniperState.JOINING);
     }
     
     public SniperSnapshot closed() {
-        return new SniperSnapshot(itemId, lastPrice, lastBid, state.whenAuctionClosed());
+        return new SniperSnapshot(item, lastPrice, lastBid, state.whenAuctionClosed());
     }
     
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+        result = prime * result + ((item == null) ? 0 : item.hashCode());
         result = prime * result + lastBid;
         result = prime * result + lastPrice;
         result = prime * result + ((state == null) ? 0 : state.hashCode());
@@ -52,11 +52,11 @@ public class SniperSnapshot {
             return false;
         }
         SniperSnapshot other = (SniperSnapshot) obj;
-        if (itemId == null) {
-            if (other.itemId != null) {
+        if (item == null) {
+            if (other.item != null) {
                 return false;
             }
-        } else if (!itemId.equals(other.itemId)) {
+        } else if (!item.equals(other.item)) {
             return false;
         }
         if (lastBid != other.lastBid) {
@@ -73,8 +73,8 @@ public class SniperSnapshot {
     
     @Override
     public String toString() {
-        return "SniperSnapshot [itemId="
-                + itemId
+        return "SniperSnapshot [item="
+                + item
                 + ", lastPrice="
                 + lastPrice
                 + ", lastBid="
@@ -85,7 +85,7 @@ public class SniperSnapshot {
     }
     
     public boolean isForSameItemAs(SniperSnapshot otherSnapshot) {
-        return itemId.equals(otherSnapshot.itemId);
+        return item.equals(otherSnapshot.item);
     }
     
 }

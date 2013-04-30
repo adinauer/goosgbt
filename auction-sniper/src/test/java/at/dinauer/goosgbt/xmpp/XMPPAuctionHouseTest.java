@@ -14,18 +14,19 @@ import at.dinauer.goosgbt.ApplicationRunner;
 import at.dinauer.goosgbt.Auction;
 import at.dinauer.goosgbt.AuctionEventListener;
 import at.dinauer.goosgbt.FakeAuctionServer;
+import at.dinauer.goosgbt.Item;
 
 
 public class XMPPAuctionHouseTest {
-    private static final String ITEM_ID       = "item-54321";
-    private FakeAuctionServer   auctionServer = new FakeAuctionServer(ITEM_ID);
-    private XMPPAuctionHouse    auctionHouse;
+    private Item              item          = Item.createWithoutStopPrice("item-54321");
+    private FakeAuctionServer auctionServer = new FakeAuctionServer(item);
+    private XMPPAuctionHouse  auctionHouse;
     
     @Test
     public void receivesEventsFromAuctionServerAfterJoining() throws Exception {
         CountDownLatch auctionWasClosed = new CountDownLatch(1);
         
-        Auction auction = auctionHouse.auctionFor(auctionServer.getItemId());
+        Auction auction = auctionHouse.auctionFor(auctionServer.getItem());
         auction.addAuctionEventListener(auctionClosedListener(auctionWasClosed));
         
         auction.join();

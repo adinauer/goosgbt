@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -16,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import at.dinauer.goosgbt.Item;
 import at.dinauer.goosgbt.Main;
 import at.dinauer.goosgbt.SniperPortfolio;
 import at.dinauer.goosgbt.UserRequestListener;
@@ -58,7 +60,12 @@ public class MainWindow
         
         joinAuctionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                userRequests.announce().joinAuction(itemIdField.getText());
+                userRequests.announce().joinAuction(createItemFromFields());
+            }
+            
+            private Item createItemFromFields() {
+                int stopPrice = Integer.parseInt(stopPriceField.getText().replaceAll(",", ""));
+                return Item.createWithStopPrice(itemIdField.getText(), stopPrice);
             }
         });
         controls.add(joinAuctionButton);
@@ -74,7 +81,7 @@ public class MainWindow
     }
     
     private JFormattedTextField stopPriceField() {
-        final JFormattedTextField stopPriceField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+        final JFormattedTextField stopPriceField = new JFormattedTextField(NumberFormat.getIntegerInstance(Locale.US));
         stopPriceField.setColumns(7);
         stopPriceField.setName(NEW_ITEM_STOP_PRICE_NAME);
         return stopPriceField;

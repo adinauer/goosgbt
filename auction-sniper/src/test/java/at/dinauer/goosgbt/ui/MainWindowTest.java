@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import at.dinauer.goosgbt.AuctionSniperDriver;
+import at.dinauer.goosgbt.Item;
 import at.dinauer.goosgbt.SniperPortfolio;
 import at.dinauer.goosgbt.UserRequestListener;
 
@@ -20,16 +21,17 @@ public class MainWindowTest {
     
     @Test
     public void makeUsersRequestWhenJoinButtonClicked() {
-        final ValueMatcherProbe<String> buttonProbe = new ValueMatcherProbe<>(equalTo("an item-id"), "join request");
+        final Item item = Item.createWithoutStopPrice("an item-id");
+        final ValueMatcherProbe<Item> itemProbe = new ValueMatcherProbe<>(equalTo(item), "join request");
         
         mainWindow.addUserRequestListener(new UserRequestListener() {
-            public void joinAuction(String itemId) {
-                buttonProbe.setReceivedValue(itemId);
+            public void joinAuction(Item item) {
+                itemProbe.setReceivedValue(item);
             }
         });
         
-        driver.startBiddingWithoutStopPrice("an item-id");
-        driver.check(buttonProbe);
+        driver.startBiddingFor(item);
+        driver.check(itemProbe);
     }
     
     @After

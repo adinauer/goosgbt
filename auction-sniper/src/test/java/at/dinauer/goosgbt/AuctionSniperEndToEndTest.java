@@ -9,8 +9,10 @@ import org.junit.Test;
 
 
 public class AuctionSniperEndToEndTest {
-    private final FakeAuctionServer auction     = new FakeAuctionServer("item-54321");
-    private final FakeAuctionServer auction2    = new FakeAuctionServer("item-65432");
+    private final Item              item        = Item.createWithoutStopPrice("item-54321");
+    private final FakeAuctionServer auction     = new FakeAuctionServer(item);
+    private final Item              item2       = Item.createWithoutStopPrice("item-65432");
+    private final FakeAuctionServer auction2    = new FakeAuctionServer(item2);
     private final ApplicationRunner application = new ApplicationRunner();
     
     @Test
@@ -90,9 +92,12 @@ public class AuctionSniperEndToEndTest {
     @Ignore
     @Test
     public void sniperLosesAnAuctionWhenThePriceIsTooHigh() throws Exception {
+        Item itemWithStopPrice = Item.createWithStopPrice("item-54321", 1100);
+        FakeAuctionServer auction = new FakeAuctionServer(itemWithStopPrice);
+        
         auction.startSellingItem();
         
-        application.startBiddingWithStopPrice(auction, 1100);
+        application.startBiddingIn(auction);
         auction.hasReceivedJoinRequestFromSniper(SNIPER_XMPP_ID);
         
         auction.reportPrice(1000, 98, "other bidder");

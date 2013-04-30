@@ -9,9 +9,9 @@ public class AuctionSniper
     private final Auction  auction;
     private SniperSnapshot snapshot;
     
-    public AuctionSniper(Auction auction, String itemId) {
+    public AuctionSniper(Auction auction, Item item) {
         this.auction = auction;
-        snapshot = SniperSnapshot.joining(itemId);
+        snapshot = SniperSnapshot.joining(item);
     }
     
     public void auctionClosed() {

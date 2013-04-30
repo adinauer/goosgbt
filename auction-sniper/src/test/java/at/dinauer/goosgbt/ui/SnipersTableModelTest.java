@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import at.dinauer.goosgbt.AuctionSniper;
+import at.dinauer.goosgbt.Item;
 import at.dinauer.goosgbt.SniperSnapshot;
 import at.dinauer.goosgbt.util.Defect;
 
@@ -140,7 +141,7 @@ public class SnipersTableModelTest {
     }
     
     private AuctionSniper createSniperForItem(String itemId) {
-        return new AuctionSniper(null, itemId);
+        return new AuctionSniper(null, Item.createWithoutStopPrice(itemId));
     }
     
     private Matcher<TableModelEvent> anyInsertionEvent() {
@@ -156,7 +157,7 @@ public class SnipersTableModelTest {
     }
     
     private void assertRowMatchesSnapshot(int rowIndex, SniperSnapshot snapshot) {
-        assertCellEquals(rowIndex, Column.ITEM_IDENTIFIER, snapshot.itemId);
+        assertCellEquals(rowIndex, Column.ITEM_IDENTIFIER, snapshot.item.identifier);
         assertCellEquals(rowIndex, Column.LAST_PRICE, snapshot.lastPrice);
         assertCellEquals(rowIndex, Column.LAST_BID, snapshot.lastBid);
         assertCellEquals(rowIndex, Column.SNIPER_STATE, textFor(snapshot.state));

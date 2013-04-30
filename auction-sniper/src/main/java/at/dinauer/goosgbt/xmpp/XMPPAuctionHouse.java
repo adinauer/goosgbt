@@ -6,6 +6,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import at.dinauer.goosgbt.Auction;
 import at.dinauer.goosgbt.AuctionHouse;
+import at.dinauer.goosgbt.Item;
 
 
 public class XMPPAuctionHouse
@@ -24,8 +25,8 @@ public class XMPPAuctionHouse
         this.connection = connection;
     }
     
-    public Auction auctionFor(String itemId) {
-        return new XMPPAuction(connection, auctionId(itemId, connection));
+    public Auction auctionFor(Item item) {
+        return new XMPPAuction(connection, auctionId(item, connection));
     }
     
     public static XMPPAuctionHouse connect(String hostname, String username, String password) throws XMPPException {
@@ -42,7 +43,7 @@ public class XMPPAuctionHouse
         connection.disconnect();
     }
     
-    private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(XMPPAuctionHouse.AUCTION_ID_FORMAT, itemId, connection.getServiceName());
+    private static String auctionId(Item item, XMPPConnection connection) {
+        return String.format(XMPPAuctionHouse.AUCTION_ID_FORMAT, item.identifier, connection.getServiceName());
     }
 }

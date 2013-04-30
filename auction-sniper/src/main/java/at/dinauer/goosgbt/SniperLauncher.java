@@ -12,9 +12,9 @@ public class SniperLauncher
         this.collector = collector;
     }
     
-    public void joinAuction(String itemId) {
-        Auction auction = auctionHouse.auctionFor(itemId);
-        AuctionSniper sniper = new AuctionSniper(auction, itemId);
+    public void joinAuction(Item item) {
+        Auction auction = auctionHouse.auctionFor(item);
+        AuctionSniper sniper = new AuctionSniper(auction, item);
         
         auction.addAuctionEventListener(sniper);
         collector.addSniper(sniper);
