@@ -18,10 +18,14 @@ import at.dinauer.goosgbt.AuctionEventListener.PriceSource;
 
 @RunWith(JMock.class)
 public class AuctionMessageTranslatorTest {
-    public static final Chat               UNUSED_CHAT = null;
-    private final Mockery                  context     = new JUnit4Mockery();
-    private final AuctionEventListener     listener    = context.mock(AuctionEventListener.class);
-    private final AuctionMessageTranslator translator  = new AuctionMessageTranslator(SNIPER_ID, listener);
+    public static final Chat               UNUSED_CHAT     = null;
+    private final Mockery                  context         = new JUnit4Mockery();
+    private final AuctionEventListener     listener        = context.mock(AuctionEventListener.class);
+    private final XMPPFailureReporter      failureReporter = context.mock(XMPPFailureReporter.class);
+    private final AuctionMessageTranslator translator      = new AuctionMessageTranslator(
+                                                                   SNIPER_ID,
+                                                                   listener,
+                                                                   failureReporter);
     
     @Test
     public void notifiesAuctionClosedWhenCloseMessageReceived() {
@@ -67,30 +71,41 @@ public class AuctionMessageTranslatorTest {
     
     @Test
     public void notifiesAuctionFailedWhenBadMessageReceived() {
-        context.checking(new Expectations() {
-            {
-                oneOf(listener).auctionFailed();
-            }
-        });
+        String badMessage = "a bad message";
         
-        Message message = new Message();
-        message.setBody("a bad message");
+        expectFailureWithMessage(badMessage);
         
-        translator.processMessage(UNUSED_CHAT, message);
+        translator.processMessage(UNUSED_CHAT, message(badMessage));
     }
     
     @Test
     public void notifiesAuctionFailedWhenEventTypeMissing() {
+        String messageWithoutEventType = "SOLVersion: 1.1; CurrentPrice: 234; Increment: 5; Bidder: "
+                + SNIPER_ID
+                + ";";
+        
+        expectFailureWithMessage(messageWithoutEventType);
+        
+        translator.processMessage(UNUSED_CHAT, message(messageWithoutEventType));
+    }
+    
+    private void expectFailureWithMessage(final String message) {
         context.checking(new Expectations() {
             {
                 oneOf(listener).auctionFailed();
+                oneOf(failureReporter).cannotTranslateMessage(
+                        with(SNIPER_ID),
+                        with(message),
+                        with(any(Exception.class)));
             }
         });
+    }
+    
+    private Message message(String body) {
+        Message message = new Message();
         
-        Message messageWithoutEventType = new Message();
-        String textForMessageWithoutEventType = "SOLVersion: 1.1; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";";
-        messageWithoutEventType.setBody(textForMessageWithoutEventType);
+        message.setBody(body);
         
-        translator.processMessage(UNUSED_CHAT, messageWithoutEventType);
+        return message;
     }
 }

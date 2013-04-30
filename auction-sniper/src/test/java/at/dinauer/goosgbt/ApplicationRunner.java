@@ -2,6 +2,10 @@ package at.dinauer.goosgbt;
 
 
 import static at.dinauer.goosgbt.FakeAuctionServer.XMPP_HOSTNAME;
+import static org.hamcrest.Matchers.containsString;
+
+import java.io.IOException;
+
 import at.dinauer.goosgbt.ui.MainWindow;
 
 
@@ -11,6 +15,7 @@ public class ApplicationRunner {
     public static final String  SNIPER_XMPP_ID  = "sniper@localhost/Auction";
     
     private AuctionSniperDriver driver;
+    private AuctionLogDriver    logDriver       = new AuctionLogDriver();
     
     public void startBiddingIn(final FakeAuctionServer... auctions) {
         startSniper();
@@ -23,6 +28,8 @@ public class ApplicationRunner {
     }
     
     private void startSniper() {
+        logDriver.clearLog();
+        
         Thread thread = new Thread("Test Application") {
             @Override
             public void run() {
@@ -72,7 +79,7 @@ public class ApplicationRunner {
         driver.showsSniperStatus(auction.getItem(), 0, 0, SniperState.FAILED);
     }
     
-    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
-        // TODO Auto-generated method stub
+    public void reportsInvalidMessage(FakeAuctionServer auction, String message) throws IOException {
+        logDriver.hasEntry(containsString(message));
     }
 }

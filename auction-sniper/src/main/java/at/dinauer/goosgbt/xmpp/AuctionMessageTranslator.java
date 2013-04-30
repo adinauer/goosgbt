@@ -22,7 +22,6 @@ public class AuctionMessageTranslator
     public static class AuctionEvent {
         private final Map<String, String> fields = new HashMap<>();
         
-        
         public String type() {
             return get("Event");
         }
@@ -77,17 +76,21 @@ public class AuctionMessageTranslator
     
     private final String               sniperId;
     private final AuctionEventListener listener;
+    private final XMPPFailureReporter  failureReporter;
     
-    public AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
+    public AuctionMessageTranslator(String sniperId, AuctionEventListener listener, XMPPFailureReporter failureReporter) {
         this.sniperId = sniperId;
         this.listener = listener;
+        this.failureReporter = failureReporter;
     }
     
     public void processMessage(Chat chat, Message message) {
+        String messageBody = message.getBody();
         try {
             translate(message);
-        } catch (Exception parseException) {
+        } catch (Exception exception) {
             listener.auctionFailed();
+            failureReporter.cannotTranslateMessage(sniperId, messageBody, exception);
         }
     }
     
