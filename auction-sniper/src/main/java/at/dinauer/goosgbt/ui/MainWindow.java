@@ -64,8 +64,15 @@ public class MainWindow
             }
             
             private Item createItemFromFields() {
-                int stopPrice = Integer.parseInt(stopPriceField.getText().replaceAll(",", ""));
-                return Item.createWithStopPrice(itemIdField.getText(), stopPrice);
+                return Item.createWithStopPrice(itemId(itemIdField), stopPrice(stopPriceField));
+            }
+            
+            private String itemId(final JTextField itemIdField) {
+                return itemIdField.getText();
+            }
+            
+            private int stopPrice(final JFormattedTextField stopPriceField) {
+                return ((Number) stopPriceField.getValue()).intValue();
             }
         });
         controls.add(joinAuctionButton);
