@@ -31,7 +31,6 @@ public class FakeAuctionServer {
     public void startSellingItem()
             throws XMPPException {
         connection.connect();
-        System.out.println(format(XMPPAuctionHouse.ITEM_ID_AS_LOGIN, item.identifier));
         connection.login(
                 format(XMPPAuctionHouse.ITEM_ID_AS_LOGIN, item.identifier),
                 AUCTION_PASSWORD,
@@ -76,5 +75,9 @@ public class FakeAuctionServer {
     private void receivesAMessageMatching(String sniperId, Matcher<? super String> messageMatcher) throws InterruptedException {
         messageListener.receivesAMessage(messageMatcher);
         assertThat(currentChat.getParticipant(), equalTo(sniperId));
+    }
+    
+    public void sendInvalidMessageContaining(String message) throws XMPPException {
+        currentChat.sendMessage(message);
     }
 }

@@ -20,7 +20,7 @@ public class SnipersTableModel
         implements
             SniperListener,
             PortfolioListener {
-    private static String[]      STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
+    private static String[]      STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won", "Failed" };
     private List<SniperSnapshot> snapshots   = new ArrayList<>();
     
     public int getColumnCount() {

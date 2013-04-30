@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 
 import at.dinauer.goosgbt.AuctionEventListener;
 import at.dinauer.goosgbt.AuctionEventListener.PriceSource;
-import at.dinauer.goosgbt.xmpp.AuctionMessageTranslator;
 
 
 @RunWith(JMock.class)
@@ -64,5 +63,34 @@ public class AuctionMessageTranslatorTest {
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";");
         
         translator.processMessage(UNUSED_CHAT, message);
+    }
+    
+    @Test
+    public void notifiesAuctionFailedWhenBadMessageReceived() {
+        context.checking(new Expectations() {
+            {
+                oneOf(listener).auctionFailed();
+            }
+        });
+        
+        Message message = new Message();
+        message.setBody("a bad message");
+        
+        translator.processMessage(UNUSED_CHAT, message);
+    }
+    
+    @Test
+    public void notifiesAuctionFailedWhenEventTypeMissing() {
+        context.checking(new Expectations() {
+            {
+                oneOf(listener).auctionFailed();
+            }
+        });
+        
+        Message messageWithoutEventType = new Message();
+        String textForMessageWithoutEventType = "SOLVersion: 1.1; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";";
+        messageWithoutEventType.setBody(textForMessageWithoutEventType);
+        
+        translator.processMessage(UNUSED_CHAT, messageWithoutEventType);
     }
 }

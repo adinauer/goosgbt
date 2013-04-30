@@ -42,6 +42,10 @@ public class XMPPAuctionHouseTest {
                 auctionWasClosed.countDown();
             }
             
+            public void auctionFailed() {
+                // not implemented
+            }
+            
             public void currentPrice(int price, int increment, PriceSource priceSource) {
                 // not implemented
             }

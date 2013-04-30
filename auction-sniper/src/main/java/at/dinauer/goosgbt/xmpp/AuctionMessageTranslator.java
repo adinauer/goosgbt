@@ -44,7 +44,11 @@ public class AuctionMessageTranslator
         }
         
         private String get(String fieldName) {
-            return fields.get(fieldName);
+            String field = fields.get(fieldName);
+            if (null == field) {
+                throw new MissingValueException(fieldName);
+            }
+            return field;
         }
         
         private void addField(AuctionEvent event, String element) {
@@ -80,6 +84,14 @@ public class AuctionMessageTranslator
     }
     
     public void processMessage(Chat chat, Message message) {
+        try {
+            translate(message);
+        } catch (Exception parseException) {
+            listener.auctionFailed();
+        }
+    }
+    
+    private void translate(Message message) {
         AuctionEvent event = AuctionEvent.from(message.getBody());
         
         String eventType = event.type();

@@ -21,6 +21,11 @@ public class AuctionSniper
         notifyChange();
     }
     
+    public void auctionFailed() {
+        snapshot = snapshot.failed();
+        notifyChange();
+    }
+    
     public void currentPrice(int price, int increment, PriceSource priceSource) {
         switch (priceSource) {
             case FromSniper:

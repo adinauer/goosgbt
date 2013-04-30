@@ -18,7 +18,7 @@ public class ApplicationRunner {
         for (FakeAuctionServer auction : auctions) {
             final Item item = auction.getItem();
             driver.startBiddingFor(item);
-            driver.showsSniperStatus(item.identifier, 0, 0, SniperState.JOINING);
+            driver.showsSniperStatus(item, 0, 0, SniperState.JOINING);
         }
     }
     
@@ -49,22 +49,30 @@ public class ApplicationRunner {
     }
     
     public void hasShownSniperIsBidding(FakeAuctionServer auction, int lastPrice, int lastBid) {
-        driver.showsSniperStatus(auction.getItem().identifier, lastPrice, lastBid, SniperState.BIDDING);
+        driver.showsSniperStatus(auction.getItem(), lastPrice, lastBid, SniperState.BIDDING);
     }
     
     public void hasShownSniperIsWinning(FakeAuctionServer auction, int winningBid) {
-        driver.showsSniperStatus(auction.getItem().identifier, winningBid, winningBid, SniperState.WINNING);
+        driver.showsSniperStatus(auction.getItem(), winningBid, winningBid, SniperState.WINNING);
     }
     
     public void showsSniperHasWonAuction(FakeAuctionServer auction, int lastPrice) {
-        driver.showsSniperStatus(auction.getItem().identifier, lastPrice, lastPrice, SniperState.WON);
+        driver.showsSniperStatus(auction.getItem(), lastPrice, lastPrice, SniperState.WON);
     }
     
     public void hasShownSniperIsLosing(FakeAuctionServer auction, int lastPrice, int lastBid) {
-        driver.showsSniperStatus(auction.getItem().identifier, lastPrice, lastBid, SniperState.LOSING);
+        driver.showsSniperStatus(auction.getItem(), lastPrice, lastBid, SniperState.LOSING);
     }
     
     public void showsSniperHasLostAuction(FakeAuctionServer auction, int lastPrice, int lastBid) {
-        driver.showsSniperStatus(auction.getItem().identifier, lastPrice, lastBid, SniperState.LOST);
+        driver.showsSniperStatus(auction.getItem(), lastPrice, lastBid, SniperState.LOST);
+    }
+    
+    public void showsSniperHasFailed(FakeAuctionServer auction) {
+        driver.showsSniperStatus(auction.getItem(), 0, 0, SniperState.FAILED);
+    }
+    
+    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
+        // TODO Auto-generated method stub
     }
 }

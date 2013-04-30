@@ -14,5 +14,7 @@ public interface AuctionEventListener
     
     void auctionClosed();
     
+    void auctionFailed();
+    
     void currentPrice(int price, int increment, PriceSource bidder);
 }
