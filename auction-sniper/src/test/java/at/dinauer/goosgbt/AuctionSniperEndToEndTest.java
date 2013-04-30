@@ -4,13 +4,12 @@ package at.dinauer.goosgbt;
 import static at.dinauer.goosgbt.ApplicationRunner.SNIPER_XMPP_ID;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 
 
 public class AuctionSniperEndToEndTest {
     private final Item              item        = Item.createWithoutStopPrice("item-54321");
-    private final FakeAuctionServer auction     = new FakeAuctionServer(item);
+    private FakeAuctionServer       auction     = new FakeAuctionServer(item);
     private final Item              item2       = Item.createWithoutStopPrice("item-65432");
     private final FakeAuctionServer auction2    = new FakeAuctionServer(item2);
     private final ApplicationRunner application = new ApplicationRunner();
@@ -89,11 +88,10 @@ public class AuctionSniperEndToEndTest {
         application.showsSniperHasWonAuction(auction2, 521);
     }
     
-    @Ignore
     @Test
     public void sniperLosesAnAuctionWhenThePriceIsTooHigh() throws Exception {
         Item itemWithStopPrice = Item.createWithStopPrice("item-54321", 1100);
-        FakeAuctionServer auction = new FakeAuctionServer(itemWithStopPrice);
+        auction = new FakeAuctionServer(itemWithStopPrice);
         
         auction.startSellingItem();
         

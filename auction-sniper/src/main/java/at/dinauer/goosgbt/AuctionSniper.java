@@ -22,16 +22,29 @@ public class AuctionSniper
     public void currentPrice(int price, int increment, PriceSource priceSource) {
         switch (priceSource) {
             case FromSniper:
-                snapshot = snapshot.winning(price);
+                handlePriceUpdateFromSniper(price);
                 break;
             case FromOtherBidder:
-                int bid = price + increment;
-                auction.bid(price + increment);
-                snapshot = snapshot.bidding(price, bid);
+                handlePriceUpdateFromOtherBidder(price, increment);
                 break;
         }
         
         notifyChange();
+    }
+    
+    private void handlePriceUpdateFromSniper(int price) {
+        snapshot = snapshot.winning(price);
+    }
+    
+    private void handlePriceUpdateFromOtherBidder(int price, int increment) {
+        int bid = price + increment;
+        
+        if (bid > snapshot.item.stopPrice) {
+            snapshot = snapshot.losing(price);
+        } else {
+            auction.bid(price + increment);
+            snapshot = snapshot.bidding(price, bid);
+        }
     }
     
     private void notifyChange() {

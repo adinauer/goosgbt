@@ -31,6 +31,7 @@ public class FakeAuctionServer {
     public void startSellingItem()
             throws XMPPException {
         connection.connect();
+        System.out.println(format(XMPPAuctionHouse.ITEM_ID_AS_LOGIN, item.identifier));
         connection.login(
                 format(XMPPAuctionHouse.ITEM_ID_AS_LOGIN, item.identifier),
                 AUCTION_PASSWORD,

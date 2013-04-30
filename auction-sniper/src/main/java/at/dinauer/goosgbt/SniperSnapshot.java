@@ -21,6 +21,10 @@ public class SniperSnapshot {
         return new SniperSnapshot(item, lastPrice, lastBid, SniperState.WINNING);
     }
     
+    public SniperSnapshot losing(int lastPrice) {
+        return new SniperSnapshot(item, lastPrice, lastBid, SniperState.LOSING);
+    }
+    
     public static SniperSnapshot joining(Item item) {
         return new SniperSnapshot(item, 0, 0, SniperState.JOINING);
     }
