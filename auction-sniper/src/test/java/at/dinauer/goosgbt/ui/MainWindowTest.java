@@ -28,7 +28,7 @@ public class MainWindowTest {
             }
         });
         
-        driver.startBiddingFor("an item-id");
+        driver.startBiddingWithoutStopPrice("an item-id");
         driver.check(buttonProbe);
     }
     

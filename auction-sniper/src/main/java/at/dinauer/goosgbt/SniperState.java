@@ -1,8 +1,7 @@
 package at.dinauer.goosgbt;
 
+
 import at.dinauer.goosgbt.util.Defect;
-
-
 
 
 public enum SniperState {
@@ -22,6 +21,12 @@ public enum SniperState {
         @Override
         public SniperState whenAuctionClosed() {
             return WON;
+        }
+    },
+    LOSING {
+        @Override
+        public SniperState whenAuctionClosed() {
+            return LOST;
         }
     },
     LOST,

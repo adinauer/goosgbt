@@ -2,7 +2,6 @@ package at.dinauer.goosgbt;
 
 
 import static at.dinauer.goosgbt.FakeAuctionServer.XMPP_HOSTNAME;
-import static at.dinauer.goosgbt.SniperState.LOST;
 import at.dinauer.goosgbt.ui.MainWindow;
 
 
@@ -18,9 +17,15 @@ public class ApplicationRunner {
         
         for (FakeAuctionServer auction : auctions) {
             final String itemId = auction.getItemId();
-            driver.startBiddingFor(itemId);
+            driver.startBiddingWithoutStopPrice(itemId);
             driver.showsSniperStatus(itemId, 0, 0, SniperState.JOINING);
         }
+    }
+    
+    public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
+        startSniper();
+        driver.startBiddingWithStopPrice(auction.getItemId(), stopPrice);
+        driver.showsSniperStatus(auction.getItemId(), 0, 0, SniperState.JOINING);
     }
     
     private void startSniper() {
@@ -43,10 +48,6 @@ public class ApplicationRunner {
         driver.hasColumnTitles();
     }
     
-    public void showsSniperHasLostAuction() {
-        driver.showsSniperStatus(LOST);
-    }
-    
     public void stop() {
         if (driver != null) {
             driver.dispose();
@@ -63,5 +64,13 @@ public class ApplicationRunner {
     
     public void showsSniperHasWonAuction(FakeAuctionServer auction, int lastPrice) {
         driver.showsSniperStatus(auction.getItemId(), lastPrice, lastPrice, SniperState.WON);
+    }
+    
+    public void hasShownSniperIsLosing(FakeAuctionServer auction, int lastPrice, int lastBid) {
+        driver.showsSniperStatus(auction.getItemId(), lastPrice, lastBid, SniperState.LOSING);
+    }
+    
+    public void showsSniperHasLostAuction(FakeAuctionServer auction, int lastPrice, int lastBid) {
+        driver.showsSniperStatus(auction.getItemId(), lastPrice, lastBid, SniperState.LOST);
     }
 }

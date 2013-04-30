@@ -1,6 +1,10 @@
 package at.dinauer.goosgbt;
 
 
+import static at.dinauer.goosgbt.Main.MAIN_WINDOW_NAME;
+import static at.dinauer.goosgbt.ui.MainWindow.JOIN_BUTTON_NAME;
+import static at.dinauer.goosgbt.ui.MainWindow.NEW_ITEM_ID_NAME;
+import static at.dinauer.goosgbt.ui.MainWindow.NEW_ITEM_STOP_PRICE_NAME;
 import static at.dinauer.goosgbt.ui.SnipersTableModel.textFor;
 import static com.objogate.wl.swing.matcher.IterableComponentsMatcher.matching;
 import static com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText;
@@ -10,8 +14,6 @@ import static org.hamcrest.Matchers.equalTo;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
-
-import at.dinauer.goosgbt.ui.MainWindow;
 
 import com.objogate.wl.swing.AWTEventQueueProber;
 import com.objogate.wl.swing.driver.JButtonDriver;
@@ -29,7 +31,7 @@ public class AuctionSniperDriver
         super(
                 new GesturePerformer(),
                 JFrameDriver.topLevelFrame(
-                        named(Main.MAIN_WINDOW_NAME),
+                        named(MAIN_WINDOW_NAME),
                         showingOnScreen()
                         ),
                 new AWTEventQueueProber(timeoutMillis, 100));
@@ -57,13 +59,19 @@ public class AuctionSniperDriver
                 withLabelText("State")));
     }
     
-    public void startBiddingFor(String itemId) {
-        itemIdField().replaceAllText(itemId);
-        bidButton().click();
+    public void startBiddingWithoutStopPrice(String itemId) {
+        startBiddingWithStopPrice(itemId, Integer.MAX_VALUE);
     }
     
-    private JTextFieldDriver itemIdField() {
-        JTextFieldDriver newItemId = new JTextFieldDriver(this, JTextField.class, named(MainWindow.NEW_ITEM_ID_NAME));
+    public void startBiddingWithStopPrice(String itemId, int stopPrice) {
+        textField(NEW_ITEM_ID_NAME).replaceAllText(itemId);
+        textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(valueOf(stopPrice));
+        bidButton().click();
+        
+    }
+    
+    private JTextFieldDriver textField(String textFieldName) {
+        JTextFieldDriver newItemId = new JTextFieldDriver(this, JTextField.class, named(textFieldName));
         
         newItemId.focusWithMouse();
         
@@ -71,6 +79,6 @@ public class AuctionSniperDriver
     }
     
     private JButtonDriver bidButton() {
-        return new JButtonDriver(this, JButton.class, named(MainWindow.JOIN_BUTTON_NAME));
+        return new JButtonDriver(this, JButton.class, named(JOIN_BUTTON_NAME));
     }
 }
